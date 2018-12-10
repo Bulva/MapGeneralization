@@ -23,12 +23,13 @@
 """
 from PyQt5.QtCore import QSettings, QTranslator, qVersion, QCoreApplication
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QAction
+from PyQt5.QtWidgets import QAction, QVBoxLayout
 
 # Initialize Qt resources from file resources.py
 from .resources import *
 # Import the code for the dialog
 from .map_generalization_dialog import MapGeneralizationDialog
+from .remove_small_polygons.main import remove_init
 import os.path
 
 
@@ -185,7 +186,12 @@ class MapGeneralization:
     def run(self):
         """Run method that performs all the real work"""
         # show the dialog
+        main_dialog = self.dlg
         self.dlg.show()
+        layout = QVBoxLayout()
+        self.dlg.setLayout(layout)
+        # remove small polygons init
+        remove_init(main_dialog, layout)
         # Run the dialog event loop
         result = self.dlg.exec_()
         # See if OK was pressed
